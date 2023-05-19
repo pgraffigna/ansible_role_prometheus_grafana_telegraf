@@ -1,0 +1,9 @@
+---
+- hosts: testing
+  become: true
+  #gather_facts: False
+
+  roles:
+    - telegraf
+    - prometheus
+    - grafana

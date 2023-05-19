@@ -1,0 +1,39 @@
+---
+- include_vars: ../../vars_main.yml
+
+- name: Borrar viejas llaves de telegraf
+  ansible.builtin.file:
+    path: "/etc/apt/trusted.gpg.d/{{ item }}"
+    state: absent
+  loop:
+    - telegraf.gpg
+    - telegraf.asc
+
+- name: Importar llave
+  ansible.builtin.get_url:
+    url: "{{ telegraf_url_key }}"
+    dest: "{{ telegraf_dest_key }}"
+    mode: 0644
+
+- name: Agregar repo
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    filename: telegraf
+    state: present
+    update_cache: true
+
+- name: Instalar telegraf
+  ansible.builtin.apt:
+    name: [ 'telegraf','snmp' ]
+
+- name: Copia y Backup de archivo de configuracion
+  ansible.builtin.template:
+    src: files/telegraf.conf.j2
+    dest: /etc/telegraf/telegraf.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: servicios_telegraf
+
+

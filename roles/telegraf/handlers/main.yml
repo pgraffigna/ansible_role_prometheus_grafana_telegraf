@@ -1,0 +1,12 @@
+---
+- name: recargar telegraf
+  ansible.builtin.systemd:
+    daemon_reload: true
+  listen: servicios_telegraf
+
+- name: reiniciar telegraf
+  ansible.builtin.systemd:
+    name: telegraf
+    state: restarted
+    enabled: yes
+  listen: servicios_telegraf

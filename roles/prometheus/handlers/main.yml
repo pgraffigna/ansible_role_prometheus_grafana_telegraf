@@ -1,0 +1,8 @@
+---
+- name: recargar prometheus
+  ansible.builtin.systemd:
+    name: prometheus
+    state: restarted
+    enabled: yes
+  listen: servicios_prometheus
+

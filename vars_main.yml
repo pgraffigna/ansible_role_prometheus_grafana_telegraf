@@ -1,0 +1,16 @@
+---
+# telegraf
+telegraf_url_key: https://repos.influxdata.com/influxdata-archive_compat.key
+telegraf_dest_key: /usr/share/keyrings/telegraf.asc
+telegraf_url_repo: https://repos.influxdata.com
+
+# grafana
+grafana_url_key: https://apt.grafana.com/gpg.key
+grafana_dest_key: /usr/share/keyrings/grafana.key
+grafana_url_repo: "https://apt.grafana.com"
+grafana_admin_password: Password123!
+
+# prometheus
+prometheus_dir_conf: /etc/prometheus
+prometheus_dir_cl: /etc/prometheus/console_libraries
+prometheus_dir_c: /etc/prometheus/consoles
