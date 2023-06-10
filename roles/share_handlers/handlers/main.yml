@@ -1,4 +1,11 @@
 ---
+- name: recargar prometheus
+  ansible.builtin.systemd:
+    name: prometheus
+    state: restarted
+    enabled: yes
+  listen: servicios_prometheus
+
 - name: recargar telegraf
   ansible.builtin.systemd:
     daemon_reload: true

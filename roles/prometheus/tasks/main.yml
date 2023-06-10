@@ -1,5 +1,7 @@
 ---
-- include_vars: ../../vars_main.yml
+- name: Incluye el archivo con las variables
+  ansible.builtin.include_vars:
+    file: vars_main.yml
 
 - name: actualizando e instalando prometheus
   ansible.builtin.apt:

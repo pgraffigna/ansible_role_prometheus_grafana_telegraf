@@ -1,5 +1,5 @@
 [testing]
-192.168.121.226
+192.168.121.149
 
 [testing:vars]
 ansible_user=vagrant
