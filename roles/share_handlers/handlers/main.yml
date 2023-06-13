@@ -17,3 +17,10 @@
     state: restarted
     enabled: yes
   listen: servicios_telegraf
+
+- name: reiniciar influxdb
+  ansible.builtin.systemd:
+    name: influxdb
+    state: restarted
+    enabled: yes
+  listen: servicios_influxdb

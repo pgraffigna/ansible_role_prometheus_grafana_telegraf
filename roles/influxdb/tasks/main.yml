@@ -1,0 +1,50 @@
+---
+- name: Incluye el archivo con las variables
+  ansible.builtin.include_vars:
+    file: vars_main.yml
+
+- name: Importar llave
+  ansible.builtin.get_url:
+    url: "{{ telegraf_url_key }}" # telegraf e influxdb usan las mismas llaves y repos
+    dest: "{{ telegraf_dest_key }}"
+    mode: 0644
+
+- name: Agregar repo
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    filename: telegraf
+    state: present
+
+- name: Instalar influxdb + dependencias
+  ansible.builtin.apt:
+    name: [ 'influxdb', 'python3-pip' ]
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Instalar python3 influxdb
+  ansible.builtin.pip:
+    name: influxdb
+    executable: pip3
+
+- name: reiniciar influxdb # necesito levantar el servicio sino no puedo conectar con la db
+  ansible.builtin.systemd:
+    name: influxdb
+    state: restarted
+    enabled: yes
+
+- name: Creando db para telegraf
+  community.general.influxdb_database:
+    hostname: "{{ influxdb_url }}"
+    database_name: "{{ influxdb_db }}"
+    port: "{{ influxdb_port }}"
+    ssl: false
+    validate_certs: false
+
+- name: Creando usuario admin en "{{ influxdb_db }}"
+  community.general.influxdb_user:
+    user_name: "{{ influxdb_user }}"
+    user_password: "{{ influxdb_pass }}"
+    hostname: "{{ influxdb_url }}"
+    admin: true
+
+

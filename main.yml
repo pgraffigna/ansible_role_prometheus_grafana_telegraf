@@ -4,6 +4,7 @@
   gather_facts: true
 
   roles:
-    - telegraf
-    - prometheus
-    - grafana
+    # - telegraf
+    # - prometheus
+    # - grafana
+    - influxdb
