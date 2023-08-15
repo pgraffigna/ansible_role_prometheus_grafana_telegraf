@@ -9,6 +9,7 @@ grafana_url_key: https://apt.grafana.com/gpg.key
 grafana_dest_key: /usr/share/keyrings/grafana.key
 grafana_url_repo: "https://apt.grafana.com"
 grafana_admin_password: Password123!
+grafana_config: grafana.ini
 
 # prometheus
 prometheus_dir_conf: /etc/prometheus
@@ -22,3 +23,8 @@ influxdb_db: telegraf_db
 influxdb_url: localhost
 influxdb_port: 8086
 
+# mariadb
+mysql_root_password: "mysql_root_password"
+mysql_db: "mysql_db"
+mysql_user: "mysql_user"
+mysql_password: "mysql_pass"
