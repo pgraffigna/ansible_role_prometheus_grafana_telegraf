@@ -4,6 +4,19 @@ telegraf_url_key: https://repos.influxdata.com/influxdata-archive_compat.key
 telegraf_dest_key: /usr/share/keyrings/telegraf.asc
 telegraf_url_repo: https://repos.influxdata.com
 
+# sedes
+interface: ens18
+
+sede1:
+  - switches: sw-01
+    ips: 10.20.4.231
+  - switches: sw-02
+    ips: 10.20.4.232
+
+sede2:
+  - switches: sw-01
+    ips: 10.30.4.230
+
 # grafana
 grafana_url_key: https://apt.grafana.com/gpg.key
 grafana_dest_key: /usr/share/keyrings/grafana.key

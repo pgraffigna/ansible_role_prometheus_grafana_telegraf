@@ -1,16 +1,23 @@
-# Input plugins
-# Ping plugin
+##### S1 ######
+{% for s1 in sede1 %}
 [[inputs.ping]]
-urls = ["1.1.1.1", "kite.zerodha.com", "google.com", "reddit.com", "twitter.com", "amazon.in", "zerodha.com"]
-count = 4
-ping_interval = 1.0
-timeout = 2.0
+  urls = ["{{ s1.ips }}"]
+  count = 1
+  interface = "{{ interface }}"
+  name_override = "{{ s1.switches }}"
+  interval = "1s"
 
-# DNS plugin
-[[inputs.dns_query]]
-  servers = ["8.8.8.8"]
-  domains = ["1.1.1.1", "kite.zerodha.com", "google.com", "reddit.com", "twitter.com", "amazon.in", "zerodha.com"]
+{% endfor %}
+##### S2 ########
+{% for s2 in sede2 %}
+[[inputs.ping]]
+  urls = ["{{ s2.ips }}"]
+  count = 1
+  interface = "{{ interface }}"
+  name_override = "{{ s2.switches }}"
+  interval = "1s"
 
+{% endfor %}
 # Output format plugins
 [[outputs.prometheus_client]]
   listen = ":9283"
