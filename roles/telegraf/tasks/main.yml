@@ -8,8 +8,8 @@
     path: "/etc/apt/trusted.gpg.d/{{ item }}"
     state: absent
   loop:
-    - telegraf.gpg
-    - telegraf.asc
+    - influxdata-archive_compat.gpg
+    - influxdata-archive_compat.asc
 
 - name: Importar llave
   ansible.builtin.get_url:
@@ -17,25 +17,25 @@
     dest: "{{ telegraf_dest_key }}"
     mode: 0644
 
-- name: Agregar repo
+- name: Agregar repositorio
   ansible.builtin.apt_repository:
-    repo: deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
-    filename: telegraf
+    repo: 'deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/debian stable main'
+    filename: influxdata
     state: present
+
+- name: Instalar aplicaciones
+  ansible.builtin.apt:
+    name: [ 'telegraf', 'snmp' ]
     update_cache: true
 
-- name: Instalar telegraf
-  ansible.builtin.apt:
-    name: [ 'telegraf','snmp' ]
-
-- name: Copia y Backup de archivo de configuracion
-  ansible.builtin.template:
+- name: Copiar archivo de configuracion
+  template:
     src: files/telegraf.conf.j2
     dest: /etc/telegraf/telegraf.conf
     owner: root
     group: root
     mode: 0644
-    backup: true
+    backup: yes
   notify: servicios_telegraf
 
 

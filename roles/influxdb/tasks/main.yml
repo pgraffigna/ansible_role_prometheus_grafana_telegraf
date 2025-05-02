@@ -3,16 +3,24 @@
   ansible.builtin.include_vars:
     file: vars_main.yml
 
+- name: Borrar viejas llaves de telegraf
+  ansible.builtin.file:
+    path: "/etc/apt/trusted.gpg.d/{{ item }}"
+    state: absent
+  loop:
+    - influxdata-archive_compat.gpg
+    - influxdata-archive_compat.asc
+
 - name: Importar llave
   ansible.builtin.get_url:
-    url: "{{ telegraf_url_key }}" # telegraf e influxdb usan las mismas llaves y repos
+    url: "{{ telegraf_url_key }}"
     dest: "{{ telegraf_dest_key }}"
     mode: 0644
 
-- name: Agregar repo
+- name: Agregar repositorio
   ansible.builtin.apt_repository:
-    repo: deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
-    filename: telegraf
+    repo: 'deb [signed-by={{ telegraf_dest_key }}] {{ telegraf_url_repo }}/debian stable main'
+    filename: influxdata
     state: present
 
 - name: Instalar influxdb + dependencias
@@ -21,12 +29,21 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: Instalar python3 influxdb
-  ansible.builtin.pip:
-    name: influxdb
-    executable: pip3
+######## no funciona con ansible 2.15.13 asi voy a usar el modulo shell ##########
+# - name: Instalar modulo influxdb para python
+#   ansible.builtin.pip:
+#     name: influxdb
+#     executable: pip3
+#     break_system_packages: yes
+#################################################################################
 
-- name: reiniciar influxdb # necesito levantar el servicio sino no puedo conectar con la db
+- name: Instalar módulo influxdb para Python usando shell
+  ansible.builtin.shell: |
+    pip3 install influxdb --break-system-packages
+  args:
+    executable: /bin/bash
+
+- name: reiniciar influxdb # necesito reiniciar el servicio sino no conecta con la db
   ansible.builtin.systemd:
     name: influxdb
     state: restarted

@@ -36,7 +36,7 @@
 - name: Iniciar grafana
   ansible.builtin.systemd:
     name: grafana-server
-    state: started
+    state: restarted
     enabled: yes
 
 - name: Esperando a que el servicio web esta online
@@ -45,7 +45,7 @@
     status_code: 200
   register: resultado
   until: resultado.status == 200
-  retries: 120
+  retries: 60
   delay: 1
 
 - name: Cambiando el password para acceso web

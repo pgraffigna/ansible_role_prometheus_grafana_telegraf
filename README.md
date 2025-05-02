@@ -1,8 +1,8 @@
 # ansible_role_prometheus_grafana_telegraf
 
-Ansible rol para desplegar el stack TIG (telegraf + influxdb + grafana) o prometheus.
+Ansible rol para desplegar el stack TIG (telegraf + influxdb + grafana) y prometheus para monitoreo de servicios.
 
-Testeado con Vagrant + qemu + ubuntu_22.04 + ansible_2.10
+Testeado con Vagrant + qemu + ubuntu_24.04 + ansible_2.15.13
 
 ----
 

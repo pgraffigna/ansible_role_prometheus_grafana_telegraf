@@ -1,6 +1,6 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
-IMAGEN = "generic/ubuntu2204"
-HOSTNAME = "grafana.home.local"
+IMAGEN = "boxen/ubuntu-24.04"
+HOSTNAME = "monitoring.home.local"
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false

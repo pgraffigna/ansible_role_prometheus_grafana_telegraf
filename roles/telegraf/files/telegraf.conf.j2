@@ -1,23 +1,19 @@
 ##### S1 ######
-{% for s1 in sede1 %}
 [[inputs.ping]]
-  urls = ["{{ s1.ips }}"]
+  urls = ["10.20.4.231"]
   count = 1
-  interface = "{{ interface }}"
-  name_override = "{{ s1.switches }}"
+  interface = "ens18"
+  name_override = "sw-01"
   interval = "1s"
 
-{% endfor %}
 ##### S2 ########
-{% for s2 in sede2 %}
 [[inputs.ping]]
-  urls = ["{{ s2.ips }}"]
+  urls = ["10.20.4.233"]
   count = 1
-  interface = "{{ interface }}"
-  name_override = "{{ s2.switches }}"
+  interface = "ens18"
+  name_override = "sw-02"
   interval = "1s"
 
-{% endfor %}
 # Output format plugins
 [[outputs.prometheus_client]]
   listen = ":9283"
